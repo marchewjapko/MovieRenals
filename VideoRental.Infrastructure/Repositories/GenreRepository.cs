@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VideoRental.Core.Domain;
@@ -9,37 +10,17 @@ namespace VideoRental.Infrastructure.Repositories
 {
     public class GenreRepository : IGenreRepository
     {
-        public static List<Genre> _genreMock = new List<Genre>();
-        public GenreRepository()
+        private AppDbContext _appDbContext;
+        public GenreRepository(AppDbContext appDbContext)
         {
-            _genreMock.Add(new Genre()
-            {
-                Id = 0,
-                Name = "Crime"
-            });
-            _genreMock.Add(new Genre()
-            {
-                Id = 1,
-                Name = "Sci-Fi"
-            });
-        }
-        public async Task AddAsync(Genre genre)
-        {
-            try
-            {
-                _genreMock.Add(genre);
-            }
-            catch (Exception ex)
-            {
-                await Task.FromException(ex);
-            }
+            _appDbContext = appDbContext;
         }
 
         public async Task<IEnumerable<Genre>> BrowseAllAsync()
         {
             try
             {
-                return await Task.FromResult(_genreMock);
+                return await Task.FromResult(_appDbContext.Genre);
             }
             catch (Exception)
             {
@@ -48,11 +29,27 @@ namespace VideoRental.Infrastructure.Repositories
             }
         }
 
+        public async Task AddAsync(Genre genre)
+        {
+            try
+            {
+                _appDbContext.Genre.Add(genre);
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
+        }
+
         public async Task DeleteAsync(int id)
         {
             try
             {
-                _genreMock.Remove(_genreMock.Find(x => x.Id == id));
+                _appDbContext.Remove(_appDbContext.Genre.FirstOrDefault(x => x.Id == id));
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
             }
             catch (Exception ex)
             {
@@ -62,14 +59,14 @@ namespace VideoRental.Infrastructure.Repositories
 
         public async Task<Genre> GetAsync(int id)
         {
-            return await Task.FromResult(_genreMock.Find(x => x.Id == id));
+            return await Task.FromResult(_appDbContext.Genre.FirstOrDefault(x => x.Id == id));
         }
 
         public async Task<IEnumerable<Genre>> GetByFilter(string name)
         {
             try
             {
-                return await Task.FromResult(_genreMock.FindAll(x => x.Name.Contains(name)));
+                return await Task.FromResult(_appDbContext.Genre.Where(x => x.Name.Contains(name)));
             }
             catch (Exception)
             {
@@ -82,8 +79,9 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                var z = _genreMock.Find(x => x.Id == id);
+                var z = _appDbContext.Genre.FirstOrDefault(x => x.Id == id);
                 z.Name = genre.Name;
+                _appDbContext.SaveChanges();
                 await Task.CompletedTask;
             }
             catch (Exception ex)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VideoRental.Core.Domain;
@@ -9,29 +10,18 @@ namespace VideoRental.Infrastructure.Repositories
 {
     public class RentalRepository : IRentalRepository
     {
-        public static List<Rental> _RentalMock = new List<Rental>();
-        public RentalRepository()
+        private AppDbContext _appDbContext;
+        public RentalRepository(AppDbContext appDbContext)
         {
-            _RentalMock.Add(new Rental()
-            {
-                Id = 0,
-                IdUser = 0,
-                IdMovie = 0,
-                RentalDate = new DateTime(2020, 1, 1)
-            });
-            _RentalMock.Add(new Rental()
-            {
-                Id = 1,
-                IdUser = 1,
-                IdMovie = 1,
-                RentalDate = new DateTime(2020, 1, 1)
-            });
+            _appDbContext = appDbContext;
         }
         public async Task AddAsync(Rental Rental)
         {
             try
             {
-                _RentalMock.Add(Rental);
+                _appDbContext.Rental.Add(Rental);
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
             }
             catch (Exception ex)
             {
@@ -43,7 +33,7 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                return await Task.FromResult(_RentalMock);
+                return await Task.FromResult(_appDbContext.Rental);
             }
             catch (Exception)
             {
@@ -56,7 +46,9 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                _RentalMock.Remove(_RentalMock.Find(x => x.Id == id));
+                _appDbContext.Remove(_appDbContext.Movie.FirstOrDefault(x => x.Id == id));
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
             }
             catch (Exception ex)
             {
@@ -68,7 +60,7 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                return await Task.FromResult(_RentalMock.Find(x => x.Id == id));
+                return await Task.FromResult(_appDbContext.Rental.FirstOrDefault(x => x.Id == id));
             }
             catch (Exception)
             {
@@ -81,7 +73,7 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                return await Task.FromResult(_RentalMock.FindAll(x => x.IdUser == userId));
+                return await Task.FromResult(_appDbContext.Rental.Where(x => x.IdUser == userId));
             }
             catch (Exception)
             {
@@ -94,7 +86,7 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                return await Task.FromResult(_RentalMock.FindAll(x => x.IdMovie == movieId));
+                return await Task.FromResult(_appDbContext.Rental.Where(x => x.IdMovie == movieId));
             }
             catch (Exception)
             {
@@ -107,10 +99,11 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                var z = _RentalMock.Find(x => x.Id == id);
+                var z = _appDbContext.Rental.FirstOrDefault(x => x.Id == id);
                 z.IdUser = Rental.IdUser;
                 z.IdMovie = Rental.IdMovie;
                 z.RentalDate = Rental.RentalDate;
+                _appDbContext.SaveChanges();
                 await Task.CompletedTask;
             }
             catch (Exception ex)

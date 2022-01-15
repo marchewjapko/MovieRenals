@@ -12,37 +12,18 @@ namespace VideoRental.Infrastructure.Repositories
 {
     public class MovieRepository : IMovieRepository
     {
-        public static List<Movie> _MovieMock = new List<Movie>();
-        public MovieRepository()
+        private AppDbContext _appDbContext;
+        public MovieRepository(AppDbContext appDbContext)
         {
-            _MovieMock.Add(new Movie()
-            {
-                Id = 0,
-                Name = "Pulp Fiction",
-                IdGenre = 0,
-                ReleaseDate = new DateTime(1994, 5, 21),
-                IdDirector = 0,
-                AgeRating = 18,
-                Description = "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-                Rating = 8.9
-            });
-            _MovieMock.Add(new Movie()
-            {
-                Id = 1,
-                Name = "2001: A Space Odyssey",
-                IdGenre = 1,
-                ReleaseDate = new DateTime(1968, 4, 2),
-                IdDirector = 1,
-                AgeRating = 12,
-                Description = "The Monoliths push humanity to reach for the stars; after their discovery in Africa generations ago, the mysterious objects lead mankind on an awesome journey to Jupiter, with the help of H.A.L. 9000: the world's greatest supercomputer.",
-                Rating = 8.3
-            });
+            _appDbContext = appDbContext;
         }
         public async Task AddAsync(Movie Movie)
         {
             try
             {
-                _MovieMock.Add(Movie);
+                _appDbContext.Movie.Add(Movie);
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
             }
             catch (Exception ex)
             {
@@ -54,7 +35,7 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                return await Task.FromResult(_MovieMock);
+                return await Task.FromResult(_appDbContext.Movie);
             }
             catch (Exception)
             {
@@ -67,7 +48,9 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                _MovieMock.Remove(_MovieMock.Find(x => x.Id == id));
+                _appDbContext.Movie.Remove(_appDbContext.Movie.FirstOrDefault(x => x.Id == id));
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
             }
             catch (Exception ex)
             {
@@ -79,7 +62,7 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                return await Task.FromResult(_MovieMock.Find(x => x.Id == id));
+                return await Task.FromResult(_appDbContext.Movie.FirstOrDefault(x => x.Id == id));
             }
             catch (Exception)
             {
@@ -92,7 +75,7 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                return await Task.FromResult(_MovieMock.FindAll(x => x.IdDirector == directorId));
+                return await Task.FromResult(_appDbContext.Movie.Where(x => x.IdDirector == directorId));
             }
             catch (Exception)
             {
@@ -105,7 +88,7 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                return await Task.FromResult(_MovieMock.FindAll(x => x.IdGenre == genreId));
+                return await Task.FromResult(_appDbContext.Movie.Where(x => x.IdGenre == genreId));
             }
             catch (Exception)
             {
@@ -118,13 +101,14 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                var z = _MovieMock.Find(x => x.Id == id);
+                var z = _appDbContext.Movie.FirstOrDefault(x => x.Id == id);
                 z.Name = movie.Name;
                 z.IdGenre = movie.IdGenre;
                 z.ReleaseDate = movie.ReleaseDate;
                 z.IdDirector = movie.IdDirector;
                 z.AgeRating = movie.AgeRating;
                 z.Description = movie.Description;
+                _appDbContext.SaveChanges();
                 await Task.CompletedTask;
             }
             catch (Exception ex)

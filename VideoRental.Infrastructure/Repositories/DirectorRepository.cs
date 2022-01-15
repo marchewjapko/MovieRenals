@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VideoRental.Core.Domain;
@@ -9,32 +10,18 @@ namespace VideoRental.Infrastructure.Repositories
 {
     public class DirectorRepository : IDirectorRepository
     {
-        public static List<Director> _directorMock = new List<Director>();
-        public DirectorRepository()
+        private AppDbContext _appDbContext;
+        public DirectorRepository(AppDbContext appDbContext)
         {
-            _directorMock.Add(new Director()
-            {
-                Id = 0,
-                Name = "Quentin",
-                Surname = "Tarantino",
-                Description = "Quentin Jerome Tarantino is an American filmmaker, film director, screenwriter, producer, film critic, and actor. " +
-                "His films are characterized by nonlinear storylines, dark humor, stylized violence, extended dialogue, ensemble casts, references to popular culture, alternate history, and neo-noir."
-
-            });
-            _directorMock.Add(new Director()
-            {
-                Id = 1,
-                Name = "Stanley",
-                Surname = "Kubrick",
-                Description = "Stanley Kubrick was an American film director, producer, screenwriter, and photographer. He is frequently cited as one of the greatest filmmakers in cinematic history."
-
-            });
+            _appDbContext = appDbContext;
         }
         public async Task AddAsync(Director director)
         {
             try
             {
-                _directorMock.Add(director);
+                _appDbContext.Director.Add(director);
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
             }
             catch (Exception ex)
             {
@@ -46,7 +33,7 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                return await Task.FromResult(_directorMock);
+                return await Task.FromResult(_appDbContext.Director);
             }
             catch (Exception)
             {
@@ -59,7 +46,9 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                _directorMock.Remove(_directorMock.Find(x => x.Id == id));
+                _appDbContext.Director.Remove(_appDbContext.Director.FirstOrDefault(x => x.Id == id));
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
             }
             catch (Exception ex)
             {
@@ -71,7 +60,7 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                return await Task.FromResult(_directorMock.Find(x => x.Id == id));
+                return await Task.FromResult(_appDbContext.Director.FirstOrDefault(x => x.Id == id));
             }
             catch (Exception)
             {
@@ -84,10 +73,11 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                var z = _directorMock.Find(x => x.Id == id);
+                var z = _appDbContext.Director.FirstOrDefault(x => x.Id == id);
                 z.Name = director.Name;
                 z.Surname = director.Surname;
                 z.Description = director.Description;
+                _appDbContext.SaveChanges();
                 await Task.CompletedTask;
             }
             catch (Exception ex)

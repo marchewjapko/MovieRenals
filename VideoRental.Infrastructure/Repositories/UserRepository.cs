@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VideoRental.Core.Domain;
@@ -9,29 +10,18 @@ namespace VideoRental.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        public static List<User> _UserMock = new List<User>();
-        public UserRepository()
+        private AppDbContext _appDbContext;
+        public UserRepository(AppDbContext appDbContext)
         {
-            _UserMock.Add(new User()
-            {
-                Id = 0,
-                Name = "Tom",
-                Surname = "Jones"
-
-            });
-            _UserMock.Add(new User()
-            {
-                Id = 1,
-                Name = "Marie",
-                Surname = "La Valette"
-
-            });
+            _appDbContext = appDbContext;
         }
         public async Task AddAsync(User User)
         {
             try
             {
-                _UserMock.Add(User);
+                _appDbContext.User.Add(User);
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
             }
             catch (Exception ex)
             {
@@ -43,7 +33,7 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                return await Task.FromResult(_UserMock);
+                return await Task.FromResult(_appDbContext.User);
             }
             catch (Exception)
             {
@@ -56,7 +46,9 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                _UserMock.Remove(_UserMock.Find(x => x.Id == id));
+                _appDbContext.Remove(_appDbContext.User.FirstOrDefault(x => x.Id == id));
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
             }
             catch (Exception ex)
             {
@@ -68,7 +60,7 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                return await Task.FromResult(_UserMock.Find(x => x.Id == id));
+                return await Task.FromResult(_appDbContext.User.FirstOrDefault(x => x.Id == id));
             }
             catch (Exception)
             {
@@ -81,7 +73,7 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                return await Task.FromResult(_UserMock.FindAll(x => x.Surname.Contains(surname)));
+                return await Task.FromResult(_appDbContext.User.Where(x => x.Surname.Contains(surname)));
             }
             catch (Exception)
             {
@@ -94,9 +86,10 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                var z = _UserMock.Find(x => x.Id == id);
+                var z = _appDbContext.User.FirstOrDefault(x => x.Id == id);
                 z.Name = User.Name;
                 z.Surname = User.Surname;
+                _appDbContext.SaveChanges();
                 await Task.CompletedTask;
             }
             catch (Exception ex)
