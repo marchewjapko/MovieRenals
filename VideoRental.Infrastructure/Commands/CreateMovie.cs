@@ -7,7 +7,6 @@ namespace VideoRental.Infrastructure.Commands
 {
     public class CreateMovie
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public int IdGenre { get; set; }
         public DateTime ReleaseDate { get; set; }

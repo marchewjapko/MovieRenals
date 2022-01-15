@@ -26,7 +26,6 @@ namespace VideoRental.Infrastructure.Services
         {
             var z = new Movie()
             {
-                Id = createMovie.Id,
                 Name = createMovie.Name,
                 IdGenre = createMovie.IdGenre,
                 ReleaseDate = createMovie.ReleaseDate,
@@ -41,54 +40,22 @@ namespace VideoRental.Infrastructure.Services
         public async Task<IEnumerable<MovieDTO>> BrowseAll()
         {
             var z = await _movieRepository.BrowseAllAsync();
-            return z.Select(x => new MovieDTO()
+            List<MovieDTO> movies = new List<MovieDTO>();
+            for(int i = 0; i<z.Count(); i++)
             {
-                Id = x.Id,
-                Name = x.Name,
-                Genre = _genreService.GetGenre(x.IdGenre).Result,
-                ReleaseDate = x.ReleaseDate,
-                Director = _directorService.GetDirector(x.IdDirector).Result,
-                AgeRating = x.AgeRating,
-                Description = x.Description,
-                Rating = x.Rating
-            });
-        }
-
-        public async Task DeleteMovie(int id)
-        {
-            await _movieRepository.DeleteAsync(id);
-        }
-
-        public async Task<IEnumerable<MovieDTO>> GetByDirectorId(int directorId)
-        {
-            var z = await _movieRepository.GetByFilterDirectorId(directorId);
-            return z.Select(x => new MovieDTO()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Genre = _genreService.GetGenre(x.IdGenre).Result,
-                ReleaseDate = x.ReleaseDate,
-                Director = _directorService.GetDirector(x.IdDirector).Result,
-                AgeRating = x.AgeRating,
-                Description = x.Description,
-                Rating = x.Rating
-            });
-        }
-
-        public async Task<IEnumerable<MovieDTO>> GetByGenreId(int genreId)
-        {
-            var z = await _movieRepository.GetByFilterGenreId(genreId);
-            return z.Select(x => new MovieDTO()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Genre = _genreService.GetGenre(x.IdGenre).Result,
-                ReleaseDate = x.ReleaseDate,
-                Director = _directorService.GetDirector(x.IdDirector).Result,
-                AgeRating = x.AgeRating,
-                Description = x.Description,
-                Rating = x.Rating
-            });
+                movies.Add(new MovieDTO
+                {
+                    Id = z.ElementAt(i).Id,
+                    Name = z.ElementAt(i).Name,
+                    Genre = _genreService.GetGenre(z.ElementAt(i).IdGenre).Result,
+                    ReleaseDate = z.ElementAt(i).ReleaseDate,
+                    Director = _directorService.GetDirector(z.ElementAt(i).IdDirector).Result,
+                    AgeRating = z.ElementAt(i).AgeRating,
+                    Description = z.ElementAt(i).Description,
+                    Rating = z.ElementAt(i).Rating,
+                });
+            }
+            return movies;
         }
 
         public async Task<MovieDTO> GetMovie(int id)
@@ -108,11 +75,57 @@ namespace VideoRental.Infrastructure.Services
             return x;
         }
 
+        public async Task DeleteMovie(int id)
+        {
+            await _movieRepository.DeleteAsync(id);
+        }
+
+        public async Task<IEnumerable<MovieDTO>> GetByDirectorId(int directorId)
+        {
+            var z = await _movieRepository.GetByFilterDirectorId(directorId);
+            List<MovieDTO> movies = new List<MovieDTO>();
+            for (int i = 0; i < z.Count(); i++)
+            {
+                movies.Add(new MovieDTO
+                {
+                    Id = z.ElementAt(i).Id,
+                    Name = z.ElementAt(i).Name,
+                    Genre = _genreService.GetGenre(z.ElementAt(i).IdGenre).Result,
+                    ReleaseDate = z.ElementAt(i).ReleaseDate,
+                    Director = _directorService.GetDirector(z.ElementAt(i).IdDirector).Result,
+                    AgeRating = z.ElementAt(i).AgeRating,
+                    Description = z.ElementAt(i).Description,
+                    Rating = z.ElementAt(i).Rating,
+                });
+            }
+            return movies;
+        }
+
+        public async Task<IEnumerable<MovieDTO>> GetByGenreId(int genreId)
+        {
+            var z = await _movieRepository.GetByFilterGenreId(genreId);
+            List<MovieDTO> movies = new List<MovieDTO>();
+            for (int i = 0; i < z.Count(); i++)
+            {
+                movies.Add(new MovieDTO
+                {
+                    Id = z.ElementAt(i).Id,
+                    Name = z.ElementAt(i).Name,
+                    Genre = _genreService.GetGenre(z.ElementAt(i).IdGenre).Result,
+                    ReleaseDate = z.ElementAt(i).ReleaseDate,
+                    Director = _directorService.GetDirector(z.ElementAt(i).IdDirector).Result,
+                    AgeRating = z.ElementAt(i).AgeRating,
+                    Description = z.ElementAt(i).Description,
+                    Rating = z.ElementAt(i).Rating,
+                });
+            }
+            return movies;
+        }
+
         public async Task UpdateMovie(UpdateMovie updateMovie, int id)
         {
             Movie z = new Movie()
             {
-                Id = updateMovie.Id,
                 Name = updateMovie.Name,
                 IdGenre = updateMovie.IdGenre,
                 ReleaseDate = updateMovie.ReleaseDate,

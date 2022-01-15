@@ -31,7 +31,6 @@ namespace VideoGenre.Infrastructure.Services
         {
             var z = new Genre()
             {
-                Id = createGenre.Id,
                 Name = createGenre.Name
             };
             await _genreRepository.AddAsync(z);
@@ -61,7 +60,6 @@ namespace VideoGenre.Infrastructure.Services
         {
             Genre z = new Genre()
             {
-                Id = updateGenre.Id,
                 Name = updateGenre.Name
             };
             await _genreRepository.UpdateAsync(z, id);

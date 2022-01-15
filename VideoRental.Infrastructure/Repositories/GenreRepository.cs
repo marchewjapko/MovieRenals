@@ -59,7 +59,8 @@ namespace VideoRental.Infrastructure.Repositories
 
         public async Task<Genre> GetAsync(int id)
         {
-            return await Task.FromResult(_appDbContext.Genre.FirstOrDefault(x => x.Id == id));
+            var z = await Task.FromResult(_appDbContext.Genre.FirstOrDefault(x => x.Id == id));
+            return z;
         }
 
         public async Task<IEnumerable<Genre>> GetByFilter(string name)

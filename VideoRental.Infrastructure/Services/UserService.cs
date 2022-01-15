@@ -31,7 +31,6 @@ namespace VideoRental.Infrastructure.Services
         {
             var z = new User()
             {
-                Id = createUser.Id,
                 Name = createUser.Name,
                 Surname = createUser.Surname
             };
@@ -64,7 +63,6 @@ namespace VideoRental.Infrastructure.Services
         {
             User z = new User()
             {
-                Id = updateUser.Id,
                 Name = updateUser.Name,
                 Surname = updateUser.Surname
             };

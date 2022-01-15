@@ -32,7 +32,6 @@ namespace VideoRental.Infrastructure.Services
         {
             var z = new Director()
             {
-                Id = createDirector.Id,
                 Name = createDirector.Name,
                 Surname = createDirector.Surname,
                 Description = createDirector.Description
@@ -56,7 +55,6 @@ namespace VideoRental.Infrastructure.Services
         {
             Director z = new Director()
             {
-                Id = updateDirector.Id,
                 Name = updateDirector.Name,
                 Surname = updateDirector.Surname,
                 Description = updateDirector.Description

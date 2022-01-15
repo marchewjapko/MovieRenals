@@ -26,7 +26,6 @@ namespace VideoRental.Infrastructure.Services
         {
             var z = new Rental()
             {
-                Id = createRental.Id,
                 IdUser = createRental.IdUser,
                 IdMovie = createRental.IdMovie,
                 RentalDate = createRental.RentalDate
@@ -37,13 +36,18 @@ namespace VideoRental.Infrastructure.Services
         public async Task<IEnumerable<RentalDTO>> BrowseAll()
         {
             var z = await _rentalRepository.BrowseAllAsync();
-            return z.Select(x => new RentalDTO()
+            List<RentalDTO> rentals = new List<RentalDTO>();
+            for(int i=0; i<z.Count(); i++)
             {
-                Id = x.Id,
-                userDTO = _userService.GetUser(x.IdUser).Result,
-                movieDTO = _movieService.GetMovie(x.IdMovie).Result,
-                RentalDate = x.RentalDate
-            });
+                rentals.Add(new RentalDTO
+                {
+                    Id = z.ElementAt(i).Id,
+                    userDTO = _userService.GetUser(z.ElementAt(i).IdUser).Result,
+                    movieDTO = _movieService.GetMovie(z.ElementAt(i).IdMovie).Result,
+                    RentalDate = z.ElementAt(i).RentalDate
+                });
+            }
+            return rentals;
         }
 
         public async Task DeleteRental(int id)
@@ -54,25 +58,35 @@ namespace VideoRental.Infrastructure.Services
         public async Task<IEnumerable<RentalDTO>> GetByMovie(int movieId)
         {
             var z = await _rentalRepository.GetByFilterMovie(movieId);
-            return z.Select(x => new RentalDTO()
+            List<RentalDTO> rentals = new List<RentalDTO>();
+            for (int i = 0; i < z.Count(); i++)
             {
-                Id = x.Id,
-                userDTO = _userService.GetUser(x.IdUser).Result,
-                movieDTO = _movieService.GetMovie(x.IdMovie).Result,
-                RentalDate = x.RentalDate
-            });
+                rentals.Add(new RentalDTO
+                {
+                    Id = z.ElementAt(i).Id,
+                    userDTO = _userService.GetUser(z.ElementAt(i).IdUser).Result,
+                    movieDTO = _movieService.GetMovie(z.ElementAt(i).IdMovie).Result,
+                    RentalDate = z.ElementAt(i).RentalDate
+                });
+            }
+            return rentals;
         }
 
         public async Task<IEnumerable<RentalDTO>> GetByUser(int userId)
         {
             var z = await _rentalRepository.GetByFilterUser(userId);
-            return z.Select(x => new RentalDTO()
+            List<RentalDTO> rentals = new List<RentalDTO>();
+            for (int i = 0; i < z.Count(); i++)
             {
-                Id = x.Id,
-                userDTO = _userService.GetUser(x.IdUser).Result,
-                movieDTO = _movieService.GetMovie(x.IdMovie).Result,
-                RentalDate = x.RentalDate
-            });
+                rentals.Add(new RentalDTO
+                {
+                    Id = z.ElementAt(i).Id,
+                    userDTO = _userService.GetUser(z.ElementAt(i).IdUser).Result,
+                    movieDTO = _movieService.GetMovie(z.ElementAt(i).IdMovie).Result,
+                    RentalDate = z.ElementAt(i).RentalDate
+                });
+            }
+            return rentals;
         }
 
         public async Task<RentalDTO> GetRental(int id)
@@ -92,7 +106,6 @@ namespace VideoRental.Infrastructure.Services
         {
             var z = new Rental()
             {
-                Id = updateRental.Id,
                 IdUser = updateRental.IdUser,
                 IdMovie = updateRental.IdMovie,
                 RentalDate = updateRental.RentalDate
