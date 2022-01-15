@@ -15,12 +15,12 @@ namespace VideoRental.Infrastructure.Repositories
             _genreMock.Add(new Genre()
             {
                 Id = 0,
-                Name = "Action"
+                Name = "Crime"
             });
             _genreMock.Add(new Genre()
             {
                 Id = 1,
-                Name = "Comedy"
+                Name = "Sci-Fi"
             });
         }
         public async Task AddAsync(Genre genre)
@@ -62,15 +62,7 @@ namespace VideoRental.Infrastructure.Repositories
 
         public async Task<Genre> GetAsync(int id)
         {
-            try
-            {
-                return await Task.FromResult(_genreMock.Find(x => x.Id == id));
-            }
-            catch (Exception)
-            {
-
-                return null;
-            }
+            return await Task.FromResult(_genreMock.Find(x => x.Id == id));
         }
 
         public async Task<IEnumerable<Genre>> GetByFilter(string name)

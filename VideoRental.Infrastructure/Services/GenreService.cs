@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
+using VideoRental.Infrastructure.Services;
+using VideoRental.Infrastructure.Commands;
 using VideoRental.Core.Repositories;
 using VideoRental.Infrastructure.DTO;
-using System.Linq;
 using VideoRental.Core.Domain;
-using VideoRental.Infrastructure.Commands;
 
-namespace VideoRental.Infrastructure.Services
+namespace VideoGenre.Infrastructure.Services
 {
     public class GenreService : IGenreService
     {

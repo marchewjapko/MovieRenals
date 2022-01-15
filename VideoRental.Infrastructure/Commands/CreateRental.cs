@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VideoRental.Core.Domain
+namespace VideoRental.Infrastructure.Commands
 {
-    public class Rental
+    public class CreateRental
     {
         public int Id { get; set; }
         public int IdUser { get; set; }

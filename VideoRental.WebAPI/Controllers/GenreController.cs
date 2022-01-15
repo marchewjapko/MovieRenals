@@ -45,7 +45,7 @@ namespace VideoRental.WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task UpdateCompetitor([FromBody] UpdateGenre updateGenre, int id)
+        public async Task UpdateGenrer([FromBody] UpdateGenre updateGenre, int id)
         {
             await _genreService.UpdateGenre(updateGenre, id);
         }

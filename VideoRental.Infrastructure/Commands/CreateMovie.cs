@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VideoRental.Infrastructure.DTO;
 
-namespace VideoRental.Core.Domain
+namespace VideoRental.Infrastructure.Commands
 {
-    public class Movie
+    public class CreateMovie
     {
         public int Id { get; set; }
         public string Name { get; set; }

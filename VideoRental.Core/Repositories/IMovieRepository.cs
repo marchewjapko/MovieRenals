@@ -10,10 +10,10 @@ namespace VideoRental.Core.Repositories
     {
         Task<IEnumerable<Movie>> BrowseAllAsync();
         Task AddAsync(Movie movie);
-        Task<Genre> GetAsync(int id);
+        Task<Movie> GetAsync(int id);
         Task DeleteAsync(int id);
-        Task UpdateAsync(Movie movie);
-        Task<IEnumerable<Movie>> GetByFilterGenre(int genreId);
-        Task<IEnumerable<Movie>> GetByFilterDirector(int directorId);
+        Task UpdateAsync(Movie movie, int id);
+        Task<IEnumerable<Movie>> GetByFilterDirectorId(int directorId);
+        Task<IEnumerable<Movie>> GetByFilterGenreId(int genreId);
     }
 }

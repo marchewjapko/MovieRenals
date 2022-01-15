@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using VideoGenre.Infrastructure.Services;
 using VideoRental.Core.Repositories;
 using VideoRental.Infrastructure.Repositories;
 using VideoRental.Infrastructure.Services;
@@ -41,6 +42,12 @@ namespace VideoRental.WebAPI
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IMovieService, MovieService>();
+
+            services.AddScoped<IRentalRepository, RentalRepository>();
+            services.AddScoped<IRentalService, RentalService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
