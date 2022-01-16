@@ -48,9 +48,9 @@ namespace VideoRental.Infrastructure.Services
             return x;
         }
 
-        public async Task<IEnumerable<UserDTO>> GetBySurname(string surname)
+        public async Task<IEnumerable<UserDTO>> GetByFilter(string s)
         {
-            var z = await _UserRepository.GetByFilter(surname);
+            var z = await _UserRepository.GetByFilter(s);
             return z.Select(x => new UserDTO()
             {
                 Id = x.Id,

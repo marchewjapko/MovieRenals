@@ -69,11 +69,11 @@ namespace VideoRental.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<User>> GetByFilter(string surname)
+        public async Task<IEnumerable<User>> GetByFilter(string s)
         {
             try
             {
-                return await Task.FromResult(_appDbContext.User.Where(x => x.Surname.Contains(surname)));
+                return await Task.FromResult(_appDbContext.User.Where(x => (x.Surname.Contains(s) || x.Name.Contains(s))));
             }
             catch (Exception)
             {

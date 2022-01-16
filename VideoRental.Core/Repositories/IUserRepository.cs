@@ -13,6 +13,6 @@ namespace VideoRental.Core.Repositories
         Task<User> GetAsync(int id);
         Task DeleteAsync(int id);
         Task UpdateAsync(User User, int id);
-        Task<IEnumerable<User>> GetByFilter(string surname);
+        Task<IEnumerable<User>> GetByFilter(string s);
     }
 }

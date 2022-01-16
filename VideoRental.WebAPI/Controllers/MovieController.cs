@@ -55,7 +55,7 @@ namespace VideoRental.WebAPI.Controllers
         [HttpGet("filter genre")]
         public async Task<IActionResult> GetByGenreId(int genreId)
         {
-            IEnumerable<MovieDTO> z = await _MovieService.GetByDirectorId(genreId);
+            IEnumerable<MovieDTO> z = await _MovieService.GetByGenreId(genreId);
             return Json(z);
         }
 

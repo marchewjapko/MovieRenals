@@ -12,7 +12,7 @@ namespace VideoRental.Infrastructure.Services
         Task<IEnumerable<UserDTO>> BrowseAll();
         Task AddUser(CreateUser createUser);
         Task<UserDTO> GetUser(int id);
-        Task<IEnumerable<UserDTO>> GetBySurname(string surname);
+        Task<IEnumerable<UserDTO>> GetByFilter(string s);
         Task UpdateUser(UpdateUser updateUser, int id);
         Task DeleteUser(int id);
     }
