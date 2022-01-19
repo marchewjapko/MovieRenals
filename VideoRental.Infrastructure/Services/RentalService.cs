@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,12 +14,10 @@ namespace VideoRental.Infrastructure.Services
     public class RentalService : IRentalService
     {
         private readonly IMovieService _movieService;
-        private readonly IUserService _userService;
         private readonly IRentalRepository _rentalRepository;
-        public RentalService(IRentalRepository rentalRepository, IUserService userService, IMovieService movieService)
+        public RentalService(IRentalRepository rentalRepository, IMovieService movieService)
         {
             _movieService = movieService;
-            _userService = userService;
             _rentalRepository = rentalRepository;
         }
 
@@ -42,7 +41,7 @@ namespace VideoRental.Infrastructure.Services
                 rentals.Add(new RentalDTO
                 {
                     Id = z.ElementAt(i).Id,
-                    userDTO = _userService.GetUser(z.ElementAt(i).IdUser).Result,
+                    IdUser = z.ElementAt(i).IdUser,
                     movieDTO = _movieService.GetMovie(z.ElementAt(i).IdMovie).Result,
                     RentalDate = z.ElementAt(i).RentalDate
                 });
@@ -64,7 +63,7 @@ namespace VideoRental.Infrastructure.Services
                 rentals.Add(new RentalDTO
                 {
                     Id = z.ElementAt(i).Id,
-                    userDTO = _userService.GetUser(z.ElementAt(i).IdUser).Result,
+                    IdUser = z.ElementAt(i).IdUser,
                     movieDTO = _movieService.GetMovie(z.ElementAt(i).IdMovie).Result,
                     RentalDate = z.ElementAt(i).RentalDate
                 });
@@ -72,7 +71,7 @@ namespace VideoRental.Infrastructure.Services
             return rentals;
         }
 
-        public async Task<IEnumerable<RentalDTO>> GetByUser(int userId)
+        public async Task<IEnumerable<RentalDTO>> GetByUser(string userId)
         {
             var z = await _rentalRepository.GetByFilterUser(userId);
             List<RentalDTO> rentals = new List<RentalDTO>();
@@ -81,7 +80,7 @@ namespace VideoRental.Infrastructure.Services
                 rentals.Add(new RentalDTO
                 {
                     Id = z.ElementAt(i).Id,
-                    userDTO = _userService.GetUser(z.ElementAt(i).IdUser).Result,
+                    IdUser = z.ElementAt(i).IdUser,
                     movieDTO = _movieService.GetMovie(z.ElementAt(i).IdMovie).Result,
                     RentalDate = z.ElementAt(i).RentalDate
                 });
@@ -95,7 +94,7 @@ namespace VideoRental.Infrastructure.Services
             var x = new RentalDTO()
             {
                 Id = z.Id,
-                userDTO = _userService.GetUser(z.IdUser).Result,
+                IdUser = z.IdUser,
                 movieDTO = _movieService.GetMovie(z.IdMovie).Result,
                 RentalDate = z.RentalDate
             };

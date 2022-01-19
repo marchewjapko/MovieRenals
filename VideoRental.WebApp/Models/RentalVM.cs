@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace VideoRental.Core.Domain
+namespace VideoRental.WebApp.Models
 {
-    public class Rental
+    public class RentalVM
     {
         public int Id { get; set; }
         public string IdUser { get; set; }
-        public int IdMovie { get; set; }
+        public MovieVM movieDTO { get; set; }
         public DateTime RentalDate { get; set; }
     }
 }

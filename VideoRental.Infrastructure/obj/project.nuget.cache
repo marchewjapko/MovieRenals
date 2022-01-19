@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "47PyOkv9hQ0vVAuYtHtesGOxpCq3XJFX8NFPt//JSgBd2GNsdbhLRS3H5m+vtwr7LZjSJ3RyFKqtuG0gIVuwHw==",
+  "dgSpecHash": "21mqS+7r6Aw8BeXXYIEnLrkybF96Xez7YVLjpW5IIwKAWLtXAvtLLw3FVd1GU9MG8Ctl/tPhyl4+mgK4P1aMTQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\PC Joe Mamma\\Desktop\\University\\PAMW\\VideoRental\\PAMiW-Projekt\\VideoRental.Infrastructure\\VideoRental.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\5.0.0\\microsoft.aspnetcore.cryptography.internal.5.0.0.nupkg.sha512",
+    "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\5.0.0\\microsoft.aspnetcore.cryptography.keyderivation.5.0.0.nupkg.sha512",
+    "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\5.0.0\\microsoft.aspnetcore.identity.entityframeworkcore.5.0.0.nupkg.sha512",
     "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.1\\microsoft.data.sqlclient.2.0.1.nupkg.sha512",
     "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.0.1\\microsoft.data.sqlclient.sni.runtime.2.0.1.nupkg.sha512",
@@ -19,6 +22,8 @@
     "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.0\\microsoft.extensions.dependencyinjection.5.0.0.nupkg.sha512",
     "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\microsoft.extensions.identity.core\\5.0.0\\microsoft.extensions.identity.core.5.0.0.nupkg.sha512",
+    "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\microsoft.extensions.identity.stores\\5.0.0\\microsoft.extensions.identity.stores.5.0.0.nupkg.sha512",
     "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\microsoft.extensions.logging\\5.0.0\\microsoft.extensions.logging.5.0.0.nupkg.sha512",
     "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\5.0.0\\microsoft.extensions.logging.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\PC Joe Mamma\\.nuget\\packages\\microsoft.extensions.options\\5.0.0\\microsoft.extensions.options.5.0.0.nupkg.sha512",

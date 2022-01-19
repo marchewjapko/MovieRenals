@@ -41,9 +41,6 @@ namespace VideoRental.WebAPI
             services.AddScoped<IDirectorRepository, DirectorRepository>();
             services.AddScoped<IDirectorService, DirectorService>();
 
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
-
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IMovieService, MovieService>();
 

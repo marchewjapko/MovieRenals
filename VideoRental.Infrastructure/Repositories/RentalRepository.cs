@@ -69,7 +69,7 @@ namespace VideoRental.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<Rental>> GetByFilterUser(int userId)
+        public async Task<IEnumerable<Rental>> GetByFilterUser(string userId)
         {
             try
             {

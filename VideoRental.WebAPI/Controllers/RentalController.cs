@@ -52,7 +52,7 @@ namespace VideoRental.WebAPI.Controllers
         }
 
         [HttpGet("filter user")]
-        public async Task<IActionResult> GetByUser(int userId)
+        public async Task<IActionResult> GetByUser(string userId)
         {
             IEnumerable<RentalDTO> z = await _rentalService.GetByUser(userId);
             return Json(z);

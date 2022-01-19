@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VideoRental.Infrastructure.Repositories;
 
 namespace VideoRental.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220119080450_Added Identity mechanism")]
+    partial class AddedIdentitymechanism
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -294,8 +296,8 @@ namespace VideoRental.Infrastructure.Migrations
                     b.Property<int>("IdMovie")
                         .HasColumnType("int");
 
-                    b.Property<string>("IdUser")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("IdUser")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("RentalDate")
                         .HasColumnType("datetime2");
@@ -303,6 +305,24 @@ namespace VideoRental.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rental");
+                });
+
+            modelBuilder.Entity("VideoRental.Core.Domain.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

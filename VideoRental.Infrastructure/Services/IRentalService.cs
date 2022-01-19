@@ -14,7 +14,7 @@ namespace VideoRental.Infrastructure.Services
         Task AddRental(CreateRental createRental);
         Task DeleteRental(int id);
         Task UpdateRental(UpdateRental updateRental, int id);
-        Task<IEnumerable<RentalDTO>> GetByUser(int userId);
+        Task<IEnumerable<RentalDTO>> GetByUser(string userId);
         Task<IEnumerable<RentalDTO>> GetByMovie(int movieId);
     }
 }

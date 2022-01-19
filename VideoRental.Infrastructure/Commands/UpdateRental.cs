@@ -6,7 +6,7 @@ namespace VideoRental.Infrastructure.Commands
 {
     public class UpdateRental
     {
-        public int IdUser { get; set; }
+        public string IdUser { get; set; }
         public int IdMovie { get; set; }
         public DateTime RentalDate { get; set; }
     }

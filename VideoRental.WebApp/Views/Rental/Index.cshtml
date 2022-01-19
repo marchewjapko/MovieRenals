@@ -1,0 +1,38 @@
+﻿@model IEnumerable<VideoRental.WebApp.Models.ListRentalVM>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.movieDTO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentalDate)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                <b> @Html.DisplayFor(modelItem => item.movieDTO.Name) </b> (@item.movieDTO.ReleaseDate.ToString("dd MMMM yyyy")) by @Html.DisplayFor(modelItem => item.movieDTO.Director.Name) @Html.DisplayFor(modelItem => item.movieDTO.Director.Surname)
+            </td>
+            <td>
+                @item.RentalDate.ToString("dd MMMM yyyy")
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

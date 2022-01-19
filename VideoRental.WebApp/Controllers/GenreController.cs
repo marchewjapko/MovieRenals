@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -45,6 +46,7 @@ namespace VideoRental.WebApp.Controllers
             return View(genreList);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int id)
         {
             string _restpath = GetHostUrl().Content + CN();
@@ -87,6 +89,7 @@ namespace VideoRental.WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             return View();
@@ -118,6 +121,7 @@ namespace VideoRental.WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             string _restpath = GetHostUrl().Content + CN();
