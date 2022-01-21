@@ -46,7 +46,7 @@ namespace VideoRental.Infrastructure.Repositories
         {
             try
             {
-                _appDbContext.Remove(_appDbContext.Movie.FirstOrDefault(x => x.Id == id));
+                _appDbContext.Remove(_appDbContext.Rental.FirstOrDefault(x => x.Id == id));
                 _appDbContext.SaveChanges();
                 await Task.CompletedTask;
             }

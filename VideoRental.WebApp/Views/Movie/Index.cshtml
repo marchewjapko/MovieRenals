@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<VideoRental.WebApp.Models.MovieVM>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
 
 @{
     if (User.IsInRole("admin"))
@@ -46,6 +48,12 @@
                         Actions
                     </th>
                 }
+                else if (SignInManager.IsSignedIn(User))
+                {
+                    <th>
+                        Rent movie
+                    </th>
+                }
             }
         </tr>
     </thead>
@@ -79,9 +87,24 @@
                     {
                         <td>
                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                             @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                         </td>
+                    }
+                    else if (SignInManager.IsSignedIn(User))
+                    {
+                        <th>
+                            @{
+                                if (item.isRentedByUser)
+                                {
+                                    <text>Movie already rented</text>
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Rent", "RentMovie", "Rental", new { id = item.Id }, null)
+
+                                }
+                            }
+                        </th>
                     }
                 }
             </tr>

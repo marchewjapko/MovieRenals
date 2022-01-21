@@ -84,7 +84,6 @@ namespace VideoRental.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                return View(ex);
             }
             return RedirectToAction(nameof(Index));
         }
@@ -115,8 +114,6 @@ namespace VideoRental.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return View(ex);
             }
             return RedirectToAction(nameof(Index));
         }
@@ -158,7 +155,6 @@ namespace VideoRental.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                return View(ex);
             }
             return RedirectToAction(nameof(Index));
         }

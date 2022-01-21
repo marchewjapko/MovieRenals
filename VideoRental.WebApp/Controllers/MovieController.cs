@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
@@ -16,10 +17,14 @@ namespace VideoRental.WebApp.Controllers
     public class MovieController : Controller
     {
         public IConfiguration Configuration;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public MovieController(IConfiguration configuration)
+        public MovieController(IConfiguration configuration, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             Configuration = configuration;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public ContentResult GetHostUrl()
@@ -44,6 +49,10 @@ namespace VideoRental.WebApp.Controllers
                     movieList = JsonConvert.DeserializeObject<List<MovieVM>>(apiResponse);
                 }
             }
+            if (_signInManager.IsSignedIn(User))
+            {
+                movieList = await filterMoviesAsync(movieList);
+            }
             return View(movieList);
         }
 
@@ -59,6 +68,10 @@ namespace VideoRental.WebApp.Controllers
                     movieList = JsonConvert.DeserializeObject<List<MovieVM>>(apiResponse);
                 }
             }
+            if (_signInManager.IsSignedIn(User))
+            {
+                movieList = await filterMoviesAsync(movieList);
+            }
             return View("Index", movieList);
         }
 
@@ -73,6 +86,10 @@ namespace VideoRental.WebApp.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     movieList = JsonConvert.DeserializeObject<List<MovieVM>>(apiResponse);
                 }
+            }
+            if (_signInManager.IsSignedIn(User))
+            {
+                movieList = await filterMoviesAsync(movieList);
             }
             return View("Index", movieList);
         }
@@ -135,7 +152,6 @@ namespace VideoRental.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                return View(ex);
             }
             return RedirectToAction(nameof(Index));
         }
@@ -177,7 +193,6 @@ namespace VideoRental.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                return View(ex);
             }
             return RedirectToAction(nameof(Index));
         }
@@ -259,9 +274,32 @@ namespace VideoRental.WebApp.Controllers
             }
             catch (Exception ex)
             {
-                return View(ex);
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task<List<MovieVM>> filterMoviesAsync(List<MovieVM> movieList)
+        {
+            string _restpath = GetHostUrl().Content + "Rental";
+            List<RentalVM> rentals = new List<RentalVM>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync($"{_restpath}/filter user?userId={_userManager.FindByNameAsync(User.Identity.Name).Result.Id}"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    rentals = JsonConvert.DeserializeObject<List<RentalVM>>(apiResponse);
+                }
+            }
+
+            foreach (var movie in movieList)
+            {
+                foreach (var rental in rentals)
+                {
+                    if (movie.Id == rental.movieDTO.Id)
+                        movie.isRentedByUser = true;
+                }
+            }
+            return movieList;
         }
     }
 }

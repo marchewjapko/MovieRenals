@@ -18,5 +18,7 @@ namespace VideoRental.WebApp.Models
         public int AgeRating { get; set; }
         public string Description { get; set; }
         public double Rating { get; set; }
+
+        public bool isRentedByUser { get; set; }
     }
 }
